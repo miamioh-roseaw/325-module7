@@ -4,39 +4,3 @@ devices:
     platform: ios
     username: student
     password: Passw0rd!
-
-  reg-rtr:
-    hostname: 10.10.10.2
-    platform: ios
-    username: student
-    password: Passw0rd!
-
-  ham-rtr:
-    hostname: 10.10.10.3
-    platform: ios
-    username: student
-    password: Passw0rd!
-
-  mid-rtr:
-    hostname: 10.10.10.4
-    platform: ios
-    username: student
-    password: Passw0rd!
-
-  mgmt-sw:
-    hostname: 10.10.10.5
-    platform: ios
-    username: student
-    password: Passw0rd!
-
-  ham-sw:
-    hostname: 10.10.10.6
-    platform: ios
-    username: student
-    password: Passw0rd!
-
-  mid-sw:
-    hostname: 10.10.10.7
-    platform: ios
-    username: student
-    password: Passw0rd!
