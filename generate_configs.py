@@ -1,8 +1,9 @@
 import yaml
-from netmiko import ConnectHandler
 import os
+from jinja2 import Environment, FileSystemLoader
+from netmiko import ConnectHandler
 
-# Load inventory (devices.yaml)
+# Load device inventory (devices.yaml)
 with open("devices.yaml") as f:
     inventory = yaml.safe_load(f)["devices"]
 
@@ -10,40 +11,43 @@ with open("devices.yaml") as f:
 with open("device_config.yaml") as f:
     config_data = yaml.safe_load(f)["config"]
 
+# Setup Jinja2 environment
+env = Environment(loader=FileSystemLoader("."))
+
+# Ensure output directory exists
+os.makedirs("rendered_configs", exist_ok=True)
+
 # Loop through each device
 for name, device in inventory.items():
-    print(f"[INFO] Connecting to {name} at {device['hostname']}...")
+    print(f"[INFO] Rendering config for {name}...")
     try:
+        device_vars = config_data.get(name, {})
+        device_type = device.get("type", "router")
+        template_file = "switch_template.j2" if device_type == "switch" else "router_template.j2"
+
+        # Load appropriate template
+        template = env.get_template(template_file)
+        rendered_config = template.render(**device_vars)
+
+        # Save rendered config
+        config_file = f"rendered_configs/{name}.cfg"
+        with open(config_file, "w") as f:
+            f.write(rendered_config)
+        print(f"[SUCCESS] Saved config to {config_file}")
+
+        # Push config via Netmiko
         conn = ConnectHandler(
             device_type="cisco_ios",
             ip=device["hostname"],
             username=device["username"],
             password=device["password"],
         )
-
-        # Build config commands
-        config_cmds = []
-        device_config = config_data.get(name, {})
-
-        if "hostname" in device_config:
-            config_cmds.append(f"hostname {device_config['hostname']}")
-
-        if "banner" in device_config:
-            config_cmds.append(f"banner motd ^{device_config['banner']}^")
-
-        if "vlans" in device_config:
-            for vlan in device_config["vlans"]:
-                config_cmds.append(f"vlan {vlan['id']}")
-                config_cmds.append(f"name {vlan['name']}")
-
-        # Send config
-        output = conn.send_config_set(config_cmds)
-        print(f"[SUCCESS] Configuration applied to {name}")
+        output = conn.send_config_set(rendered_config.splitlines())
+        print(f"[SUCCESS] Applied config to {name}")
         print(output)
 
-        # Save config
         conn.save_config()
         conn.disconnect()
 
     except Exception as e:
-        print(f"[ERROR] Failed to configure {name}: {e}")
+        print(f"[ERROR] Failed with {name}: {e}")
