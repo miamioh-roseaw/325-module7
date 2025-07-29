@@ -1,0 +1,7 @@
+hostname {{ hostname }}
+banner motd ^{{ banner }}^
+
+router ospf 100
+{% for network in ospf.networks %}
+ network {{ network }} area 0
+{% endfor %}
