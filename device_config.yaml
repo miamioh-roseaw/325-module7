@@ -2,11 +2,7 @@ config:
   mgmt-rtr:
     hostname: mgmt-rtr
     banner: "Welcome to mgmt-rtr"
-    vlans:
-      - id: 10
-        name: STAFF
-      - id: 20
-        name: STUDENTS
+
 
   reg-rtr:
     hostname: reg-rtr
