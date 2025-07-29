@@ -1,0 +1,48 @@
+config:
+  mgmt-rtr:
+    hostname: mgmt-rtr
+    banner: "Welcome to mgmt-rtr"
+    vlans:
+      - id: 10
+        name: STAFF
+      - id: 20
+        name: STUDENTS
+
+  reg-rtr:
+    hostname: reg-rtr
+    banner: "Welcome to reg-rtr"
+
+  ham-rtr:
+    hostname: ham-rtr
+    banner: "Welcome to ham-rtr"
+
+  mid-rtr:
+    hostname: mid-rtr
+    banner: "Welcome to mid-rtr"
+
+  mgmt-sw:
+    hostname: mgmt-sw
+    banner: "Welcome to mgmt-sw"
+    vlans:
+      - id: 10
+        name: STAFF
+      - id: 20
+        name: STUDENTS
+
+  ham-sw:
+    hostname: ham-sw
+    banner: "Welcome to ham-sw"
+    vlans:
+      - id: 10
+        name: STAFF
+      - id: 20
+        name: STUDENTS
+
+  mid-sw:
+    hostname: mid-sw
+    banner: "Welcome to mid-sw"
+    vlans:
+      - id: 10
+        name: STAFF
+      - id: 20
+        name: STUDENTS
