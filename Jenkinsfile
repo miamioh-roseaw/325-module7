@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        SCRIPT = 'generate_configs/generate_configs.py'
-        CONFIG_FILE = 'generate_configs/devices.yaml'
+        SCRIPT = 'generate_configs.py'
+        CONFIG_FILE = 'gdevices.yaml'
         PATH = "${HOME}/.local/bin:${env.PATH}"
         PYTHONPATH = "${HOME}/.local/lib/python3.10/site-packages"
     }
