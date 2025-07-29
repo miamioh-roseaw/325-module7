@@ -2,10 +2,9 @@ pipeline {
     agent any
 
     environment {
-        SCRIPT = 'generate_configs.py'
-        CONFIG_FILE = 'devices.yaml'
         PATH = "${HOME}/.local/bin:${env.PATH}"
         PYTHONPATH = "${HOME}/.local/lib/python3.10/site-packages"
+        SCRIPT = "generate_configs.py"
     }
 
     stages {
@@ -13,46 +12,30 @@ pipeline {
             steps {
                 sh '''
                     if ! command -v pip3 > /dev/null; then
-                        echo "[INFO] pip not found. Installing..."
+                        echo "[INFO] Installing pip..."
                         wget https://bootstrap.pypa.io/get-pip.py -O get-pip.py
                         python3 get-pip.py --user
                     fi
-                    ~/.local/bin/pip3 install --user pyyaml
+
+                    echo "[INFO] Installing required libraries..."
+                    ~/.local/bin/pip3 install --user netmiko pyyaml jinja2
                 '''
             }
         }
 
-        stage('Check Config File') {
+        stage('Run Configuration Script') {
             steps {
                 sh '''
-                    echo "[INFO] Checking for config file: ${CONFIG_FILE}"
-                    if [ ! -f "${CONFIG_FILE}" ]; then
-                        echo "[ERROR] ${CONFIG_FILE} not found."
-                        exit 1
-                    fi
-
-                    echo "[INFO] Printing contents of ${CONFIG_FILE} for debug:"
-                    cat "${CONFIG_FILE}"
-                '''
-            }
-        }
-
-        stage('Run Generate Config Script') {
-            steps {
-                sh '''
-                    echo "[INFO] Running Python script: ${SCRIPT}"
-                    python3 "${SCRIPT}"
+                    echo "[INFO] Running configuration script..."
+                    python3 ${SCRIPT}
                 '''
             }
         }
     }
 
     post {
-        failure {
-            echo '[ERROR] Pipeline failed. Please check the logs above for more details.'
-        }
-        success {
-            echo '[INFO] Pipeline completed successfully.'
+        always {
+            archiveArtifacts artifacts: 'rendered_configs/*.cfg', allowEmptyArchive: true
         }
     }
 }
