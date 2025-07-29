@@ -3,7 +3,7 @@ from jinja2 import Environment, FileSystemLoader
 
 env = Environment(loader=FileSystemLoader('.'))
 
-with open("device_data.yaml") as f:
+with open("devices.yaml") as f:
        devices = yaml.safe_load(f)["devices"]
 
 template = env.get_template("template.j2")
