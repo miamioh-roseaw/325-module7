@@ -3,7 +3,6 @@ config:
     hostname: mgmt-rtr
     banner: "Welcome to mgmt-rtr"
 
-
   reg-rtr:
     hostname: reg-rtr
     banner: "Welcome to reg-rtr"
