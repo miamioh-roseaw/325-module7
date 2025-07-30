@@ -6,5 +6,5 @@ router ospf 100
 {% for net in networks %}
  network {{ net.network }} {{ net.wildcard }} area {{ ospf_area }}
 {% endfor %}
-
+enable secret Passw0rd!
 banner motd ^Templating on the job!^
