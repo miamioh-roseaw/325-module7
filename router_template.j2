@@ -1,2 +1,10 @@
 hostname {{ hostname }}
-banner motd ^{{ banner }}^
+interface Loopback0
+ ip address {{ loopback }} 255.255.255.255
+
+router ospf 100
+{% for net in networks %}
+ network {{ net.network }} {{ net.wildcard }} area {{ ospf_area }}
+{% endfor %}
+
+banner motd ^Templating on the job!^
