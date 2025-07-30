@@ -4,3 +4,5 @@ devices:
     platform: ios
     username: student
     password: Passw0rd!
+    secret: Passw0rd!
+    read_timout: 30
