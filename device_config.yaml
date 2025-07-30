@@ -32,13 +32,21 @@ config:
     vlans:
       - { id: 10, name: Staff }
       - { id: 20, name: Students }
-
+      - { id: 30, name: Faculty }
+      - { id: 40, name: Guests }
+      
   ham-sw:
     hostname: ham-sw
     vlans:
+      - { id: 10, name: Staff }
+      - { id: 20, name: Students }
       - { id: 30, name: Faculty }
+      - { id: 40, name: Guests }
 
   mid-sw:
     hostname: mid-sw
     vlans:
+      - { id: 10, name: Staff }
+      - { id: 20, name: Students }
+      - { id: 30, name: Faculty }
       - { id: 40, name: Guests }
