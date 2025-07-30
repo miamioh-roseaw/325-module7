@@ -1,9 +1,8 @@
 hostname {{ hostname }}
-banner motd ^{{ banner }}^
 
-{% if vlans %}
 {% for vlan in vlans %}
 vlan {{ vlan.id }}
  name {{ vlan.name }}
 {% endfor %}
-{% endif %}
+
+banner motd ^This switch is managed by templates^
