@@ -1,4 +1,11 @@
 devices:
+  mgmt-rtr:
+    hostname: 10.10.10.1
+    username: ${CISCO_USER}
+    password: ${CISCO_PASS}
+    secret: ${CISCO_PASS}
+    type: router
+
   reg-rtr:
     hostname: 10.10.10.2
     username: ${CISCO_USER}
@@ -20,3 +27,23 @@ devices:
     secret: ${CISCO_PASS}
     type: router
 
+  mgmt-sw:
+    hostname: 10.10.10.5
+    username: ${CISCO_USER}
+    password: ${CISCO_PASS}
+    secret: ${CISCO_PASS}
+    type: switch
+
+  ham-sw:
+    hostname: 10.10.10.6
+    username: ${CISCO_USER}
+    password: ${CISCO_PASS}
+    secret: ${CISCO_PASS}
+    type: switch
+
+  mid-sw:
+    hostname: 10.10.10.7
+    username: ${CISCO_USER}
+    password: ${CISCO_PASS}
+    secret: ${CISCO_PASS}
+    type: switch
