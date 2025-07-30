@@ -1,43 +1,44 @@
 config:
   mgmt-rtr:
     hostname: mgmt-rtr
-    banner: "Welcome to mgmt-rtr"
+    loopback: 1.1.1.1
+    ospf_area: 0
+    networks:
+      - { network: 10.10.10.0, wildcard: 0.0.0.255 }
 
   reg-rtr:
     hostname: reg-rtr
-    banner: "Welcome to reg-rtr"
+    loopback: 2.2.2.2
+    ospf_area: 0
+    networks:
+      - { network: 10.10.20.0, wildcard: 0.0.0.255 }
 
   ham-rtr:
     hostname: ham-rtr
-    banner: "Welcome to ham-rtr"
+    loopback: 3.3.3.3
+    ospf_area: 100
+    networks:
+      - { network: 10.10.30.0, wildcard: 0.0.0.255 }
 
   mid-rtr:
     hostname: mid-rtr
-    banner: "Welcome to mid-rtr"
+    loopback: 4.4.4.4
+    ospf_area: 100
+    networks:
+      - { network: 10.10.40.0, wildcard: 0.0.0.255 }
 
   mgmt-sw:
     hostname: mgmt-sw
-    banner: "Welcome to mgmt-sw"
     vlans:
-      - id: 10
-        name: STAFF
-      - id: 20
-        name: STUDENTS
+      - { id: 10, name: Staff }
+      - { id: 20, name: Students }
 
   ham-sw:
     hostname: ham-sw
-    banner: "Welcome to ham-sw"
     vlans:
-      - id: 10
-        name: STAFF
-      - id: 20
-        name: STUDENTS
+      - { id: 30, name: Faculty }
 
   mid-sw:
     hostname: mid-sw
-    banner: "Welcome to mid-sw"
     vlans:
-      - id: 10
-        name: STAFF
-      - id: 20
-        name: STUDENTS
+      - { id: 40, name: Guests }
