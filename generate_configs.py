@@ -41,6 +41,7 @@ for name, device in inventory.items():
             ip=device["hostname"],
             username=device["username"],
             password=device["password"],
+            secret=device["secret"],
         )
         output = conn.send_config_set(rendered_config.splitlines())
         print(f"[SUCCESS] Applied config to {name}")
