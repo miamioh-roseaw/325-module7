@@ -1,6 +1,6 @@
 devices:
-  mgmt-rtr:
-    hostname: 10.10.10.1
+  reg-rtr:
+    hostname: 10.10.10.2
     platform: ios
     username: student
     password: Passw0rd!
