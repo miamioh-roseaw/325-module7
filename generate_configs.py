@@ -2,6 +2,7 @@ import yaml
 import os
 from jinja2 import Environment, FileSystemLoader
 from netmiko import ConnectHandler
+import re
 
 # Load device inventory (devices.yaml)
 with open("devices.yaml") as f:
@@ -25,30 +26,32 @@ for name, device in inventory.items():
         device_type = device.get("type", "router")
         template_file = "switch_template.j2" if device_type == "switch" else "router_template.j2"
 
-        # Load appropriate template
+        # Render config
         template = env.get_template(template_file)
         rendered_config = template.render(**device_vars)
 
-        # Save rendered config
-        config_file = f"rendered_configs/{name}.cfg"
-        with open(config_file, "w") as f:
+        config_path = f"rendered_configs/{name}.cfg"
+        with open(config_path, "w") as f:
             f.write(rendered_config)
-        print(f"[SUCCESS] Saved config to {config_file}")
+        print(f"[SUCCESS] Saved config to {config_path}")
 
-        # Push config via Netmiko
+        # Push config with Netmiko
         conn = ConnectHandler(
             device_type="cisco_ios",
             ip=device["hostname"],
-            username=device["username"],
-            password=device["password"],
-            secret=device["secret"],
+            username=os.environ["CISCO_USER"],
+            password=os.environ["CISCO_PASS"],
+            secret=os.environ["CISCO_PASS"],
         )
-        output = conn.send_config_set(rendered_config.splitlines())
-        print(f"[SUCCESS] Applied config to {name}")
+        conn.enable()
+
+        print(f"[INFO] Pushing config to {name}...")
+        output = conn.send_config_set(rendered_config.splitlines(), read_timeout=60)
         print(output)
 
         conn.save_config()
         conn.disconnect()
+        print(f"[✓] Config pushed to {name}")
 
     except Exception as e:
         print(f"[ERROR] Failed with {name}: {e}")
