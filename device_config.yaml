@@ -16,14 +16,14 @@ config:
   ham-rtr:
     hostname: ham-rtr
     loopback: 3.3.3.3
-    ospf_area: 100
+    ospf_area: 0
     networks:
       - { network: 3.3.3.0, wildcard: 0.0.0.255 }
 
   mid-rtr:
     hostname: mid-rtr
     loopback: 4.4.4.4
-    ospf_area: 100
+    ospf_area: 0
     networks:
       - { network: 4.4.4.0, wildcard: 0.0.0.255 }
 
