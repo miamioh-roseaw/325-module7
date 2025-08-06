@@ -58,7 +58,7 @@ for name, device in inventory.items():
         # Use credentials from Jenkins environment variables to establish SSH session
         conn = ConnectHandler(
             device_type="cisco_ios",  # Specifies type of device for Netmiko
-            ip=device["hostname"],  # IP address from devices.yaml
+            ip=device["host"],  # IP address from devices.yaml
             username=os.environ["CISCO_USER"],  # Pulled from Jenkins credential binding
             password=os.environ["CISCO_PASS"],
             secret=os.environ["CISCO_PASS"],  # Enable password, same as login in this case
